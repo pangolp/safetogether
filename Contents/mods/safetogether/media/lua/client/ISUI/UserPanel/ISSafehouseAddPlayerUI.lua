@@ -54,26 +54,31 @@ function ISSafehouseAddPlayerUI:initialise()
 end
 
 function ISSafehouseAddPlayerUI:populateList()
+
     self.playerList:clear()
+
     if not self.scoreboard then return end
+
     for i=1,self.scoreboard.usernames:size() do
         local username = self.scoreboard.usernames:get(i-1)
         local displayName = self.scoreboard.displayNames:get(i-1)
+
         if self.safehouse:getOwner() ~= username then
+
             local newPlayer = {}
             newPlayer.username = username
             local alreadySafe = self.safehouse:alreadyHaveSafehouse(username)
-            if alreadySafe and alreadySafe ~= self.safehouse then
-                if alreadySafe:getTitle() ~= "Safehouse" then
-                    newPlayer.tooltip = getText("IGUI_SafehouseUI_AlreadyHaveSafehouse", "(" .. alreadySafe:getTitle() .. ")")
-                else
-                    newPlayer.tooltip = getText("IGUI_SafehouseUI_AlreadyHaveSafehouse" , "")
-                end
+
+            if alreadySafe and alreadySafe == self.safehouse then
+                newPlayer.tooltip = getText("IGUI_SafehouseTogether_AlreadyInvited")
             end
+
             local item = self.playerList:addItem(displayName, newPlayer)
+
             if newPlayer.tooltip then
-               item.tooltip = newPlayer.tooltip
+                item.tooltip = newPlayer.tooltip
             end
+
         end
     end
 end
