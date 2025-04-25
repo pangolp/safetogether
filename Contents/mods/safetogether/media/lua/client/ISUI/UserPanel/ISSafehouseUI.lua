@@ -399,15 +399,13 @@ ISSafehouseUI.ReceiveSafehouseInvite = function(safehouse, host)
         ISSafehouseUI.inviteDialogs[host] = nil
     end
 
-    if not SafeHouse.hasSafehouse(getPlayer()) then
-        local modal = ISModalDialog:new(getCore():getScreenWidth() / 2 - 175,getCore():getScreenHeight() / 2 - 75, 350, 150, getText("IGUI_SafehouseUI_Invitation", host), true, nil, ISSafehouseUI.onAnswerSafehouseInvite)
-        modal:initialise()
-        modal:addToUIManager()
-        modal.safehouse = safehouse
-        modal.host = host
-        modal.moveWithMouse = true
-        ISSafehouseUI.inviteDialogs[host] = modal
-    end
+    local modal = ISModalDialog:new(getCore():getScreenWidth() / 2 - 175,getCore():getScreenHeight() / 2 - 75, 350, 150, getText("IGUI_SafehouseUI_Invitation", host), true, nil, ISSafehouseUI.onAnswerSafehouseInvite)
+    modal:initialise()
+    modal:addToUIManager()
+    modal.safehouse = safehouse
+    modal.host = host
+    modal.moveWithMouse = true
+    ISSafehouseUI.inviteDialogs[host] = modal
 end
 
 function ISSafehouseUI:onAnswerSafehouseInvite(button)
