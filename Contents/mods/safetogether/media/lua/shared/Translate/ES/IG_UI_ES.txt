@@ -1,0 +1,3 @@
+IG_UI_ES = {
+  IGUI_SafehouseTogether_AlreadyInvited = "El jugador ya se encuentra dentro del refugio.",
+}
