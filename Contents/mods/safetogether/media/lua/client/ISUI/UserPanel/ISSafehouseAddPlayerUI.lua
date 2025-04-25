@@ -122,11 +122,12 @@ function ISSafehouseAddPlayerUI:onClick(button)
             modal:addToUIManager()
             sendSafehouseInvite(self.safehouse, self.player, self.selectedPlayer)
         else
+            local previousOwner = self.safehouse:getOwner()
             self.safehouse:setOwner(self.selectedPlayer)
+            self.safehouse:addPlayer(previousOwner)
+            --self.safehouse:addResident(previousOwner)
             self.safehouse:syncSafehouse()
-            if self.player:getX() >= self.safehouse:getX() - 1 and self. player:getX() < self.safehouse:getX2() + 1 and self.player:getY() >= self.safehouse:getY() - 1 and self.player:getY() < self.safehouse:getY2() + 1 then
-                self.safehouse:kickOutOfSafehouse(self.player)
-            end
+
             self.safehouseUI:populateList()
             self:setVisible(false)
             self:removeFromUIManager()
