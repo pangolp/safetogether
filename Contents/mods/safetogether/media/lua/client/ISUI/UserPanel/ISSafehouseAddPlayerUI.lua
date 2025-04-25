@@ -130,7 +130,6 @@ function ISSafehouseAddPlayerUI:onClick(button)
             local previousOwner = self.safehouse:getOwner()
             self.safehouse:setOwner(self.selectedPlayer)
             self.safehouse:addPlayer(previousOwner)
-            --self.safehouse:addResident(previousOwner)
             self.safehouse:syncSafehouse()
 
             self.safehouseUI:populateList()
