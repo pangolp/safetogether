@@ -3,11 +3,9 @@ Safetogether.money = 0
 Safetogether.canClaimLand = true
 
 local function setSafehouseData(_title, _owner, _x, _y, _w, _h)
-    local playerObj = getSpecificPlayer(0)
     local safeObj = SafeHouse.addSafeHouse(_x, _y, _w, _h, _owner, false)
     safeObj:setTitle(_title)
     safeObj:setOwner(_owner)
-    safeObj:updateSafehouse(playerObj)
     safeObj:syncSafehouse()
 end
 
