@@ -68,3 +68,16 @@ function getCountSafePerPlayer(player)
 
     return _count
 end
+
+function getCountSafePerPlayerName(playerName)
+    local _count = 0
+
+    for i = 0, SafeHouse.getSafehouseList():size() - 1 do
+        local _safehouse = SafeHouse.getSafehouseList():get(i)
+        if _safehouse:getOwner() == playerName then
+            _count = _count + 1
+        end
+    end
+
+    return _count
+end

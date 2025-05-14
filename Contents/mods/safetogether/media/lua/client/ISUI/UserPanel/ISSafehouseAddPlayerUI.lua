@@ -127,15 +127,22 @@ function ISSafehouseAddPlayerUI:onClick(button)
             modal:addToUIManager()
             sendSafehouseInvite(self.safehouse, self.player, self.selectedPlayer)
         else
-            local previousOwner = self.safehouse:getOwner()
-            self.safehouse:setOwner(self.selectedPlayer)
-            self.safehouse:addPlayer(previousOwner)
-            self.safehouse:syncSafehouse()
+            if getCountSafePerPlayerName(self.selectedPlayer) < SandboxVars.safetogether.NumberOfClaimsPerPlayer then
+                local previousOwner = self.safehouse:getOwner()
+                self.safehouse:setOwner(self.selectedPlayer)
+                self.safehouse:addPlayer(previousOwner)
+                self.safehouse:syncSafehouse()
 
-            self.safehouseUI:populateList()
-            self:setVisible(false)
-            self:removeFromUIManager()
-            ISSafehouseAddPlayerUI.instance = nil
+                self.safehouseUI:populateList()
+                self:setVisible(false)
+                self:removeFromUIManager()
+                ISSafehouseAddPlayerUI.instance = nil
+            else
+                self.player:Say("Este jugador supero el limite de safehouse a su nombre que podes tener.")
+                self:setVisible(false)
+                self:removeFromUIManager()
+                ISSafehouseAddPlayerUI.instance = nil
+            end
         end
     end
 end
