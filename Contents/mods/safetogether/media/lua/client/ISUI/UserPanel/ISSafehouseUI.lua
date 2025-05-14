@@ -142,7 +142,7 @@ function ISSafehouseUI:initialise()
     self:addChild(self.respawn)
     self.respawn.safehouseUI = self
     if not getServerOptions():getBoolean("SafehouseAllowRespawn") then
-        self.respawn.enable = true
+        self.respawn.enable = false
     end
 
     self.no:setY(self.respawn:getBottom() + 20)

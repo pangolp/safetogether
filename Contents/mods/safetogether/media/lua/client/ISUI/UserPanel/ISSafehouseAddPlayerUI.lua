@@ -141,7 +141,6 @@ function ISSafehouseAddPlayerUI:onClick(button)
                 self.player:Say("Este jugador supero el limite de safehouse a su nombre que podes tener.")
                 self:setVisible(false)
                 self:removeFromUIManager()
-                ISSafehouseAddPlayerUI.instance = nil
             end
         end
     end
