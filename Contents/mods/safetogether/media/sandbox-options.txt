@@ -1,0 +1,34 @@
+VERSION = 1,
+
+option safetogether.NumberOfClaimsPerPlayer
+{
+    type = integer, min = 1, max = 20, default = 1,
+    page = safetogether, translation = NumberOfClaimsPerPlayer,
+}
+
+option safetogether.NotClaimEvenIfYouHaveHouse
+{
+    type = boolean,
+    default = true,
+    page = safetogether, translation = NotClaimEvenIfYouHaveHouse,
+}
+
+option safetogether.NotClaimIfYouAreGuest
+{
+    type = boolean,
+    default = true,
+    page = safetogether, translation = NotClaimIfYouAreGuest,
+}
+
+option safetogether.ItemNeededToClaim
+{
+    type = string,
+    default =,
+    page = safetogether, translation = ItemNeededToClaim,
+}
+
+option safetogether.QuantityOfItemToClaim
+{
+    type = integer, min = 1, max = 500, default = 50,
+    page = safetogether, translation = QuantityOfItemToClaim,
+}

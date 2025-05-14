@@ -18,7 +18,7 @@ Safetogether.ClaimLand = function()
             _player:Say("Ya perteneces un refugio.")
             _player:Say("Para poder reclamar uno.")
             _player:Say("Primero debes abandonar el actual.")
-        else
+        elseif getCountSafePerPlayer(_player) < SandboxVars.safetogether.NumberOfClaimsPerPlayer then
             local _x1 = _player:getX() - 15
             local _x2 = _player:getX() + 15
             local _y1 = _player:getY() - 15
@@ -29,31 +29,12 @@ Safetogether.ClaimLand = function()
             local setW = math.floor(math.abs(_x1 - _x2) + 1)
             local setH = math.floor(math.abs(_y1 - _y2) + 1)
 
-            removeItem("Base.Money", 50, _player)
+            removeItem(SandboxVars.safetogether.ItemNeededToClaim, SandboxVars.safetogether.QuantityOfItemToClaim, _player)
             setSafehouseData(string.format("Safehouse %s", _player:getUsername()), _player:getUsername(), setX, setY, setW, setH)
+        else
+            _player:Say("Superaste el limite de safehouse a tu nombre que podes tener.")
         end
     end
-end
-
-local function getItems(player, item)
-    local _count = 0
-
-    if player then
-        local _inventory = player:getInventory()
-        if _inventory then
-            local _items = _inventory:getItems()
-            if _items then
-                for i = 0, _items:size() - 1 do
-                    local _item = _items:get(i)
-                    if _item:getFullType() == item then
-                        _count = _count + _item:getCount()
-                    end
-                end
-            end
-        end
-    end
-
-    return _count
 end
 
 Safetogether.OnFillWorldObjectContextMenu = function(player, context, worldobjects, test)
@@ -65,17 +46,17 @@ Safetogether.OnFillWorldObjectContextMenu = function(player, context, worldobjec
 
     if _player:getVehicle() then return end
 
-    Safetogether.money = getItems(_player, "Base.Money")
+    Safetogether.money = getItems(_player, SandboxVars.safetogether.ItemNeededToClaim)
     Safetogether.canClaimLand = true
 
     for i = 0, SafeHouse.getSafehouseList():size() - 1 do
         local _safehouse = SafeHouse.getSafehouseList():get(i)
-        if _safehouse:isOwner(_player) then
+        if _safehouse:isOwner(_player) and SandboxVars.safetogether.NotClaimEvenIfYouHaveHouse then
             Safetogether.canClaimLand = false
             break
         else
             for j=0, _safehouse:getPlayers():size() - 1 do
-                if (_safehouse:getPlayers():get(j) == _player:getUsername()) then
+                if (_safehouse:getPlayers():get(j) == _player:getUsername() and SandboxVars.safetogether.NotClaimIfYouAreGuest) then
                     Safetogether.canClaimLand = false
                     break
                 end
@@ -155,7 +136,7 @@ Safetogether.OnFillWorldObjectContextMenu = function(player, context, worldobjec
         end
     end
 
-    if Safetogether.money >= 50 and canClaim then
+    if Safetogether.money >= SandboxVars.safetogether.QuantityOfItemToClaim and canClaim then
         context:addOption("Reclamar terreno", _player, Safetogether.ClaimLand)
     end
 end
