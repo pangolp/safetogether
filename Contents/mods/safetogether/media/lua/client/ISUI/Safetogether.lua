@@ -1,4 +1,3 @@
-require "lands.lua"
 local Safetogether = {}
 Safetogether.money = 0
 Safetogether.canClaimLand = true
@@ -10,15 +9,6 @@ local function setSafehouseData(_title, _owner, _x, _y, _w, _h)
     safeObj:setOwner(_owner)
     safeObj:updateSafehouse(playerObj)
     safeObj:syncSafehouse()
-end
-
-Safetogether.Log = function()
-    local _player = getPlayer()
-    local log = string.format("{ posX = %d, posY = %d },\n", math.floor(_player:getX()), math.floor(_player:getY()))
-    _player:Say(log)
-    local getFileWriter = getFileWriter("logs/" .. os.date('%Y_%m_%d') .. "_on_claims.txt" , true, true)
-    getFileWriter:write(log)
-    getFileWriter:close()
 end
 
 Safetogether.ClaimLand = function()
@@ -39,7 +29,7 @@ Safetogether.ClaimLand = function()
             local setW = math.floor(math.abs(_x1 - _x2) + 1)
             local setH = math.floor(math.abs(_y1 - _y2) + 1)
 
-            removeItem("Base.Money", 1, _player)
+            removeItem("Base.Money", 50, _player)
             setSafehouseData(string.format("Safehouse %s", _player:getUsername()), _player:getUsername(), setX, setY, setW, setH)
         end
     end
@@ -165,12 +155,9 @@ Safetogether.OnFillWorldObjectContextMenu = function(player, context, worldobjec
         end
     end
 
-    if Safetogether.money >= 1 and canClaim then
+    if Safetogether.money >= 50 and canClaim then
         context:addOption("Reclamar terreno", _player, Safetogether.ClaimLand)
     end
-
-    context:addOption("Log", _player, Safetogether.Log)
-
 end
 
 Events.OnFillWorldObjectContextMenu.Add(Safetogether.OnFillWorldObjectContextMenu)
