@@ -1,0 +1,13 @@
+Sandbox_AR = {
+    Sandbox_safetogether = "Refugio juntos",
+    Sandbox_safetogether_NumberOfClaimsPerPlayer = "Numero de refugios por jugador",
+    Sandbox_safetogether_NumberOfClaimsPerPlayer_tooltip = "Limita la cantidad de refugios que un jugador puede tener a su nombre.",
+    Sandbox_safetogether_NotClaimEvenIfYouHaveHouse = "¿Reclamar aunque tenga un refugio?",
+    Sandbox_safetogether_NotClaimEvenIfYouHaveHouse_tooltip = "Permitir reclamar un refugio, aunque ya tengas otro a tu nombre.",
+    Sandbox_safetogether_NotClaimIfYouAreGuest = "¿Reclamar aunque este como invitado en otro refugio?",
+    Sandbox_safetogether_NotClaimIfYouAreGuest_tooltip = "Permitir reclamar un refugio, aunque ya te encuestes de invitado en otro.",
+    Sandbox_safetogether_ItemNeededToClaim = "Ítem utilizado para reclamar",
+    Sandbox_safetogether_ItemNeededToClaim_tooltip = "Este es el ítem que debe tener el jugador para reclamar el refugio.",
+    Sandbox_safetogether_QuantityOfItemToClaim = "Cantidad necesaria",
+    Sandbox_safetogether_QuantityOfItemToClaim_tooltip = "Cantidad del ítem que el jugador debe tener para reclamar.",
+}
