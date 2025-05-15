@@ -13,12 +13,13 @@ end
 
 Safetogether.ClaimLand = function()
     local _player = getPlayer()
+    local _countSafePerPlayer = getCountSafePerPlayer(_player)
     if _player then
         if (Safetogether.canClaimLand == false) then
             _player:Say("Ya perteneces un refugio.")
             _player:Say("Para poder reclamar uno.")
             _player:Say("Primero debes abandonar el actual.")
-        elseif getCountSafePerPlayer(_player) < SandboxVars.safetogether.NumberOfClaimsPerPlayer then
+        elseif _countSafePerPlayer < SandboxVars.safetogether.NumberOfClaimsPerPlayer then
             local _x1 = _player:getX() - 15
             local _x2 = _player:getX() + 15
             local _y1 = _player:getY() - 15
@@ -29,8 +30,12 @@ Safetogether.ClaimLand = function()
             local setW = math.floor(math.abs(_x1 - _x2) + 1)
             local setH = math.floor(math.abs(_y1 - _y2) + 1)
 
-            removeItem(SandboxVars.safetogether.ItemNeededToClaim, SandboxVars.safetogether.QuantityOfItemToClaim, _player)
-            setSafehouseData("Safezone #" .. SafeHouse.getSafehouseList():size() + 1, _player:getUsername(), setX, setY, setW, setH)
+            if _countSafePerPlayer == 1 then
+                _player:Say("Ya tenes un refugio a tu nombre")
+            else
+                removeItem(SandboxVars.safetogether.ItemNeededToClaim, SandboxVars.safetogether.QuantityOfItemToClaim, _player)
+                setSafehouseData("Safezone #" .. SafeHouse.getSafehouseList():size() + 1, _player:getUsername(), setX, setY, setW, setH)
+            end
         else
             _player:Say("Superaste el limite de safehouse a tu nombre que podes tener.")
         end
