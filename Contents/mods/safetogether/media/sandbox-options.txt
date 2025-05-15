@@ -23,7 +23,7 @@ option safetogether.NotClaimIfYouAreGuest
 option safetogether.ItemNeededToClaim
 {
     type = string,
-    default =,
+    default ="Base.Money",
     page = safetogether, translation = ItemNeededToClaim,
 }
 
