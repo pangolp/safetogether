@@ -2,13 +2,16 @@ local Safetogether = {}
 Safetogether.money = 0
 Safetogether.canClaimLand = true
 
-local function setSafehouseData(_title, _owner, _x, _y, _w, _h)
-    local playerObj = getSpecificPlayer(0)
-    local safeObj = SafeHouse.addSafeHouse(_x, _y, _w, _h, _owner, false)
-    safeObj:setTitle(_title)
-    safeObj:setOwner(_owner)
-    safeObj:updateSafehouse(playerObj)
-    safeObj:syncSafehouse()
+local function setSafehouseData(title, owner, x, y, w, h)
+    local _falseOwner = generateMixedRandomName(10)
+    local _playerObj = getPlayer()
+    local _safeObj = SafeHouse.addSafeHouse(x, y, w, h, _falseOwner, false)
+    _safeObj:setTitle(title)
+    _safeObj:setRespawnInSafehouse(true, owner)
+    _safeObj:setOwner(owner)
+    _safeObj:removePlayer(_falseOwner)
+    _safeObj:updateSafehouse(_playerObj)
+    _safeObj:syncSafehouse()
 end
 
 Safetogether.ClaimLand = function()
@@ -30,12 +33,8 @@ Safetogether.ClaimLand = function()
             local setW = math.floor(math.abs(_x1 - _x2) + 1)
             local setH = math.floor(math.abs(_y1 - _y2) + 1)
 
-            if _countSafePerPlayer == 1 then
-                _player:Say("Ya tenes un refugio a tu nombre")
-            else
-                removeItem(SandboxVars.safetogether.ItemNeededToClaim, SandboxVars.safetogether.QuantityOfItemToClaim, _player)
-                setSafehouseData("Safezone #" .. SafeHouse.getSafehouseList():size() + 1, _player:getUsername(), setX, setY, setW, setH)
-            end
+            setSafehouseData("Safezone #" .. SafeHouse.getSafehouseList():size() + 1, _player:getUsername(), setX, setY, setW, setH)
+            removeItem(SandboxVars.safetogether.ItemNeededToClaim, SandboxVars.safetogether.QuantityOfItemToClaim, _player)
         else
             _player:Say("Superaste el limite de safehouse a tu nombre que podes tener.")
         end
