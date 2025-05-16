@@ -81,3 +81,15 @@ function getCountSafePerPlayerName(playerName)
 
     return _count
 end
+
+function generateMixedRandomName(numberOfCharacters)
+    local _name = ""
+    local _characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    for i = 1, numberOfCharacters do
+        local _index = ZombRand(1, #_characters)
+        _name = _name .. string.sub(_characters, _index, _index)
+    end
+
+    return _name
+end
