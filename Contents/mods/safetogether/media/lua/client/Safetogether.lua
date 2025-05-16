@@ -4,13 +4,12 @@ Safetogether.canClaimLand = true
 
 local function setSafehouseData(title, owner, x, y, w, h)
     local _falseOwner = generateMixedRandomName(10)
-    local _playerObj = getPlayer()
     local _safeObj = SafeHouse.addSafeHouse(x, y, w, h, _falseOwner, false)
     _safeObj:setTitle(title)
-    _safeObj:setRespawnInSafehouse(true, owner)
-    _safeObj:setOwner(owner)
+    _safeObj:setRespawnInSafehouse(true, owner:getUsername())
+    _safeObj:setOwner(owner:getUsername())
     _safeObj:removePlayer(_falseOwner)
-    _safeObj:updateSafehouse(_playerObj)
+    _safeObj:updateSafehouse(owner)
     _safeObj:syncSafehouse()
 end
 
@@ -31,7 +30,7 @@ Safetogether.ClaimLand = function()
             local setW = math.floor(math.abs(_x1 - _x2) + 1)
             local setH = math.floor(math.abs(_y1 - _y2) + 1)
 
-            setSafehouseData("Safehouse #" .. SafeHouse.getSafehouseList():size() + 1, _player:getUsername(), setX, setY, setW, setH)
+            setSafehouseData("Safehouse #" .. SafeHouse.getSafehouseList():size() + 1, _player, setX, setY, setW, setH)
             removeItem(SandboxVars.safetogether.ItemNeededToClaim, SandboxVars.safetogether.QuantityOfItemToClaim, _player)
         else
             _player:Say(getText("IGUI_haveExceededTheLimit"))
