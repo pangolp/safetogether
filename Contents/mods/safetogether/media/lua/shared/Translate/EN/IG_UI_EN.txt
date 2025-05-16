@@ -1,3 +1,5 @@
 IG_UI_EN = {
-  IGUI_SafehouseTogether_AlreadyInvited = "The player is already inside the safe house.",
+    IGUI_SafehouseTogether_AlreadyInvited = "The player is already inside the safe house.",
+    IGUI_notCanClaimLand = "You already belong to a safehouse. To claim one, you must first leave your current one.",
+    IGUI_haveExceededTheLimit = "You have exceeded the limit of safehouses you can have in your name.",
 }

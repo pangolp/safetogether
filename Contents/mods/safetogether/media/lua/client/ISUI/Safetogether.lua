@@ -19,9 +19,7 @@ Safetogether.ClaimLand = function()
     local _countSafePerPlayer = getCountSafePerPlayer(_player)
     if _player then
         if (Safetogether.canClaimLand == false) then
-            _player:Say("Ya perteneces un refugio.")
-            _player:Say("Para poder reclamar uno.")
-            _player:Say("Primero debes abandonar el actual.")
+            _player:Say(getText("IGUI_notCanClaimLand"))
         elseif _countSafePerPlayer < SandboxVars.safetogether.NumberOfClaimsPerPlayer then
             local _x1 = _player:getX() - 15
             local _x2 = _player:getX() + 15
@@ -36,7 +34,7 @@ Safetogether.ClaimLand = function()
             setSafehouseData("Safehouse #" .. SafeHouse.getSafehouseList():size() + 1, _player:getUsername(), setX, setY, setW, setH)
             removeItem(SandboxVars.safetogether.ItemNeededToClaim, SandboxVars.safetogether.QuantityOfItemToClaim, _player)
         else
-            _player:Say("Superaste el limite de safehouse a tu nombre que podes tener.")
+            _player:Say(getText("IGUI_haveExceededTheLimit"))
         end
     end
 end
@@ -141,7 +139,7 @@ Safetogether.OnFillWorldObjectContextMenu = function(player, context, worldobjec
     end
 
     if Safetogether.money >= SandboxVars.safetogether.QuantityOfItemToClaim and canClaim then
-        context:addOption("Reclamar terreno", _player, Safetogether.ClaimLand)
+        context:addOption(getText("ContextMenu_ClaimingLand"), _player, Safetogether.ClaimLand)
     end
 end
 

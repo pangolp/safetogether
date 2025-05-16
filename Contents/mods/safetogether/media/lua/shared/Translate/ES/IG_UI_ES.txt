@@ -1,3 +1,5 @@
 IG_UI_ES = {
-  IGUI_SafehouseTogether_AlreadyInvited = "El jugador ya se encuentra dentro del refugio.",
+    IGUI_SafehouseTogether_AlreadyInvited = "El jugador ya se encuentra dentro del refugio.",
+    IGUI_notCanClaimLand = "Ya perteneces un refugio. Para poder reclamar uno. Primero debes abandonar el actual.",
+    IGUI_haveExceededTheLimit = "Superaste el limite de safehouse a tu nombre que podes tener.",
 }
