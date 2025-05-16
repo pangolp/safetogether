@@ -10,17 +10,22 @@ It also allows you to claim plots or land without having to have a building on t
 
 ![Image](https://github.com/user-attachments/assets/a7e20c1b-3da6-427c-aeb7-ebe6e0bda314)
 
+![20250516032341_1](https://github.com/user-attachments/assets/f32e9d29-55bf-4395-bd31-edaca2836263)
+
+![20250516032348_1](https://github.com/user-attachments/assets/689eeaaa-b158-4acf-a73f-36ef9c816ee1)
+
+![20250516032521_1](https://github.com/user-attachments/assets/bd46fb47-42ea-4940-b57f-a3bb5857a956)
+
 ```lua
 --- Creates and configures a new safehouse in the world.
 --- This function performs the following steps:
 --- 1. Generates a random name for an initial "false" owner.
 --- 2. Creates a safehouse object at the specified coordinates and dimensions.
 --- 3. Sets the title of the safehouse.
---- 4. Enables respawning inside the safehouse for the real owner.
---- 5. Assigns the real owner to the safehouse.
---- 6. Removes the "false" owner from accessing the safehouse.
---- 7. Updates the safehouse information.
---- 8. Synchronizes the safehouse data with the clients.
+--- 4. Assigns the real owner to the safehouse.
+--- 5. Removes the "false" owner from accessing the safehouse.
+--- 6. Updates the safehouse information.
+--- 7. Synchronizes the safehouse data with the clients.
 --- @param title string The title of the safehouse.
 --- @param owner Player The player object that will be the owner of the safehouse.
 --- @param x number The X coordinate of the safehouse.
