@@ -33,7 +33,7 @@ Safetogether.ClaimLand = function()
             local setW = math.floor(math.abs(_x1 - _x2) + 1)
             local setH = math.floor(math.abs(_y1 - _y2) + 1)
 
-            setSafehouseData("Safezone #" .. SafeHouse.getSafehouseList():size() + 1, _player:getUsername(), setX, setY, setW, setH)
+            setSafehouseData("Safehouse #" .. SafeHouse.getSafehouseList():size() + 1, _player:getUsername(), setX, setY, setW, setH)
             removeItem(SandboxVars.safetogether.ItemNeededToClaim, SandboxVars.safetogether.QuantityOfItemToClaim, _player)
         else
             _player:Say("Superaste el limite de safehouse a tu nombre que podes tener.")
