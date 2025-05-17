@@ -67,9 +67,9 @@ function ISSafehouseAddPlayerUI:populateList()
 
             local newPlayer = {}
             newPlayer.username = username
-            local alreadySafe = self.safehouse:alreadyHaveSafehouse(username)
+            local alreadySafe = self.safehouse:playerAllowed(username)
 
-            if alreadySafe and alreadySafe == self.safehouse then
+            if alreadySafe then
                 newPlayer.tooltip = getText("IGUI_SafehouseTogether_AlreadyInvited")
             end
 
