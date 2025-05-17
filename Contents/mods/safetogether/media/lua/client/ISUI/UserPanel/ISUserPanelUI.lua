@@ -122,7 +122,7 @@ function ISUserPanelUI:create()
         child:setWidth(width)
     end
 
-    self:setWidth(10 + width + 20 + width + 10)
+    self:setWidth(10 + width + 20 + width + 10 + 50)
 
     self.cancel = ISButton:new((self:getWidth() / 2) + 5, self:getHeight() - padBottom - btnHgt, btnWid, btnHgt, getText("UI_btn_close"), self, ISUserPanelUI.onOptionMouseDown)
     self.cancel.internal = "CANCEL"
