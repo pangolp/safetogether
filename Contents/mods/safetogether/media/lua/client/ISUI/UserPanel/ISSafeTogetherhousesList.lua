@@ -66,7 +66,10 @@ function ISSafeTogetherhousesList:drawDatas(y, item, alt)
         self.parent.selectedSafehouse = item.item
     end
 
-    self:drawText(item.item:getTitle() .. " - " .. getText("IGUI_FactionUI_FactionsListPlayers", item.item:getPlayers():size(), item.item:getOwner()), 10, y + 2, 1, 1, 1, a, self.font)
+    local playersInSafehouse = item.item:getPlayers():size()
+    if playersInSafehouse == 0 then playersInSafehouse = playersInSafehouse + 1 end
+
+    self:drawText(item.item:getTitle() .. " - " .. getText("IGUI_FactionUI_FactionsListPlayers", playersInSafehouse, item.item:getOwner()), 10, y + 2, 1, 1, 1, a, self.font)
 
     return y + self.itemheight
 end
