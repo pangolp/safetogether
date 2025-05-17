@@ -63,13 +63,15 @@ function ISUserPanelUI:create()
         y = y + btnHgt + 5
     end
 
-    self.ticketsBtn = ISButton:new(10, y, btnWid, btnHgt, getText("UI_userpanel_tickets"), self, ISUserPanelUI.onOptionMouseDown)
-    self.ticketsBtn.internal = "TICKETS"
-    self.ticketsBtn:initialise()
-    self.ticketsBtn:instantiate()
-    self.ticketsBtn.borderColor = self.buttonBorderColor
-    self:addChild(self.ticketsBtn)
-    y = y + btnHgt + 5
+    if (self.player:getAccessLevel() == "Admin" or self.player:getAccessLevel() == "Moderator") then
+        self.ticketsBtn = ISButton:new(10, y, btnWid, btnHgt, getText("UI_userpanel_tickets"), self, ISUserPanelUI.onOptionMouseDown)
+        self.ticketsBtn.internal = "TICKETS"
+        self.ticketsBtn:initialise()
+        self.ticketsBtn:instantiate()
+        self.ticketsBtn.borderColor = self.buttonBorderColor
+        self:addChild(self.ticketsBtn)
+        y = y + btnHgt + 5
+    end
 
     if not Faction.isAlreadyInFaction(self.player) then
         self.factionBtn.title = getText("IGUI_FactionUI_CreateFaction")
@@ -80,13 +82,15 @@ function ISUserPanelUI:create()
         self.factionBtn:setWidthToTitle(self.factionBtn.width)
     end
 
-    self.serverOptionBtn = ISButton:new(10, y, btnWid, btnHgt, getText("IGUI_AdminPanel_SeeServerOptions"), self, ISUserPanelUI.onOptionMouseDown)
-    self.serverOptionBtn.internal = "SERVEROPTIONS"
-    self.serverOptionBtn:initialise()
-    self.serverOptionBtn:instantiate()
-    self.serverOptionBtn.borderColor = self.buttonBorderColor
-    self:addChild(self.serverOptionBtn)
-    y = y + btnHgt + 5
+    if (self.player:getAccessLevel() == "Admin" or self.player:getAccessLevel() == "Moderator") then
+        self.serverOptionBtn = ISButton:new(10, y, btnWid, btnHgt, getText("IGUI_AdminPanel_SeeServerOptions"), self, ISUserPanelUI.onOptionMouseDown)
+        self.serverOptionBtn.internal = "SERVEROPTIONS"
+        self.serverOptionBtn:initialise()
+        self.serverOptionBtn:instantiate()
+        self.serverOptionBtn.borderColor = self.buttonBorderColor
+        self:addChild(self.serverOptionBtn)
+        y = y + btnHgt + 5
+    end
 
     y = 70
 
