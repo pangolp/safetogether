@@ -62,14 +62,20 @@ function ISSafeTogetherhousesList:drawDatas(y, item, alt)
 
     if self.selected == item.index then
         self:drawRect(0, (y), self:getWidth(), self.itemheight - 1, 0.3, 0.7, 0.35, 0.15)
-        self.parent.viewBtn.enable = true
+        if not ISSafehouseUI.instance then
+            self.parent.viewBtn.enable = true
+        else
+            self.parent.viewBtn.tooltip = "Solo puedes ver 1 refugio por vez"
+        end
         self.parent.selectedSafehouse = item.item
     end
 
     local playersInSafehouse = item.item:getPlayers():size()
+    local respawnInSafehouseActive = ""
     if playersInSafehouse == 0 then playersInSafehouse = playersInSafehouse + 1 end
+    if item.item:isRespawnInSafehouse(getPlayer():getUsername()) then respawnInSafehouseActive = getText("IGUI_SafehouseTogether_Respawn") else respawnInSafehouseActive = "" end
 
-    self:drawText(item.item:getTitle() .. " - " .. getText("IGUI_FactionUI_FactionsListPlayers", playersInSafehouse, item.item:getOwner()), 10, y + 2, 1, 1, 1, a, self.font)
+    self:drawText((string.format(getText("IGUI_SafehouseTogether_Safehouse"), item.item:getTitle(), item.item:getOwner(), playersInSafehouse, respawnInSafehouseActive)), 10, y + 2, 1, 1, 1, a, self.font)
 
     return y + self.itemheight
 end
@@ -80,7 +86,7 @@ function ISSafeTogetherhousesList:prerender()
     local x = 10
     self:drawRect(0, 0, self.width, self.height, self.backgroundColor.a, self.backgroundColor.r, self.backgroundColor.g, self.backgroundColor.b)
     self:drawRectBorder(0, 0, self.width, self.height, self.borderColor.a, self.borderColor.r, self.borderColor.g, self.borderColor.b)
-    self:drawText(getText("IGUI_AdminPanel_SeeSafehouses"), self.width/2 - (getTextManager():MeasureStringX(UIFont.Medium, getText("IGUI_AdminPanel_SeeSafehouses")) / 2), z, 1,1,1,1, UIFont.Medium)
+    self:drawText(string.format(getText("IGUI_SafehouseTogether_Safehouse_Owner"), self.player:getUsername()), self.width/2 - (getTextManager():MeasureStringX(UIFont.Medium, string.format(getText("IGUI_SafehouseTogether_Safehouse_Owner"), self.player:getUsername())) / 2), z, 1,1,1,1, UIFont.Medium)
     z = z + 30
 end
 
@@ -89,10 +95,12 @@ function ISSafeTogetherhousesList:onClick(button)
         self:close()
     end
     if button.internal == "VIEW" then
-        local safehouseUI = ISSafehouseUI:new(getCore():getScreenWidth() / 2 - 250,getCore():getScreenHeight() / 2 - 225, 500, 450, self.selectedSafehouse, self.player)
-        safehouseUI:initialise()
-        safehouseUI:addToUIManager()
-        self:close()
+        if not ISSafehouseUI.instance then
+            local safehouseUI = ISSafehouseUI:new(getCore():getScreenWidth() / 2 - 250,getCore():getScreenHeight() / 2 - 225, 500, 450, self.selectedSafehouse, self.player)
+            safehouseUI:initialise()
+            safehouseUI:addToUIManager()
+            self:close()
+        end
     end
 end
 
