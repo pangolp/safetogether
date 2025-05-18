@@ -154,6 +154,15 @@ function ISSafehouseUI:initialise()
 end
 
 function ISSafehouseUI:onClickRespawn(clickedOption, enabled)
+
+    for i=0, SafeHouse.getSafehouseList():size() - 1 do
+        local safe = SafeHouse.getSafehouseList():get(i)
+        if ((safe:getOwner() == self.player) or (safe:playerAllowed(self.player:getUsername()))) then
+            if (safe:isRespawnInSafehouse(self.player:getUsername())) then
+                safe:setRespawnInSafehouse(false, self.player:getUsername())
+            end
+        end
+    end
     self.safehouse:setRespawnInSafehouse(enabled, self.player:getUsername())
 end
 
