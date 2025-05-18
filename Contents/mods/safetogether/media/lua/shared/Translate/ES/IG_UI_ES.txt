@@ -4,5 +4,5 @@ IG_UI_ES = {
     IGUI_haveExceededTheLimit = "Superaste el limite de safehouse a tu nombre que podes tener.",
     IGUI_SafehouseTogether_Safehouse = "%s - Dueño: %s - Miembros: %d %s",
     IGUI_SafehouseTogether_Safehouse_Owner = "Refugios de: %s",
-    IGUI_SafehouseTogether_Respawn = "- (Respawn)",
+    IGUI_SafehouseTogether_Respawn = "- (Revivir acá)",
 }
