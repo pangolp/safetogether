@@ -6,8 +6,8 @@ Sandbox_AR = {
     Sandbox_safetogether_NotClaimEvenIfYouHaveHouse_tooltip = "Permitir reclamar un refugio, aunque ya tengas otro a tu nombre.",
     Sandbox_safetogether_NotClaimIfYouAreGuest = "No reclamar si es invitado en un refugio",
     Sandbox_safetogether_NotClaimIfYouAreGuest_tooltip = "Permitir reclamar un refugio, aunque ya te encuestes de invitado en otro.",
-    Sandbox_safetogether_ItemNeededToClaim = "Õtem utilizado para reclamar",
-    Sandbox_safetogether_ItemNeededToClaim_tooltip = "Este es el Ìtem que debe tener el jugador para reclamar el refugio.",
+    Sandbox_safetogether_ItemNeededToClaim = "√çtem utilizado para reclamar",
+    Sandbox_safetogether_ItemNeededToClaim_tooltip = "Este es el √≠tem que debe tener el jugador para reclamar el refugio.",
     Sandbox_safetogether_QuantityOfItemToClaim = "Cantidad necesaria",
-    Sandbox_safetogether_QuantityOfItemToClaim_tooltip = "Cantidad del Ìtem que el jugador debe tener para reclamar.",
+    Sandbox_safetogether_QuantityOfItemToClaim_tooltip = "Cantidad del √≠tem que el jugador debe tener para reclamar.",
 }
