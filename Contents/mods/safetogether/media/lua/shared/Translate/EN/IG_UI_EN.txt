@@ -5,4 +5,5 @@ IG_UI_EN = {
     IGUI_SafehouseTogether_Safehouse = "%s - Owner: %s - Members: %d %s",
     IGUI_SafehouseTogether_Safehouse_Owner = "Safe houses of: %s",
     IGUI_SafehouseTogether_Respawn = "- (Respawn)",
+    IGUI_SafehouseUI_Safehouses = "Safehouses",
 }

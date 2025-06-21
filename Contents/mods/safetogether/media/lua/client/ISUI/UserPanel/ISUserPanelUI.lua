@@ -54,7 +54,7 @@ function ISUserPanelUI:create()
     y = y + btnHgt + 5
 
     if SafeHouse.hasSafehouse(self.player) then
-        self.safehouseBtn = ISButton:new(10, y, btnWid, btnHgt, getText("IGUI_SafehouseUI_Safehouse"), self, ISUserPanelUI.onOptionMouseDown)
+        self.safehouseBtn = ISButton:new(10, y, btnWid, btnHgt, getText("IGUI_SafehouseUI_Safehouses"), self, ISUserPanelUI.onOptionMouseDown)
         self.safehouseBtn.internal = "SAFEHOUSEPANEL"
         self.safehouseBtn:initialise()
         self.safehouseBtn:instantiate()
