@@ -99,6 +99,86 @@ function SafeTogetherServer.claimOwn(playerObj, args)
     })
 end
 
+-- Set (or clear) the player's respawn safehouse.
+--
+-- The vanilla "respawn here" tickbox sends SafehouseChangeRespawnPacket, whose
+-- server-side consistency/anti-cheat check requires the player to be in the
+-- safehouse's players list OR be its owner. But SafeHouse.setOwner() drops the
+-- owner from the players list, and in Build 42.20+ the "SafeHouseMember" anti-
+-- cheat kicks anyone that check rejects -> the OWNER gets kicked when setting
+-- respawn in their own safehouse (guests, who ARE in the players list, are fine).
+--
+-- We route the change through this server command instead, calling the
+-- unrestricted SafeHouse method directly (server is authoritative), so the
+-- vanilla packet and its anti-cheat are never involved. We also enforce the
+-- mod's rule of a single respawn safehouse per player.
+function SafeTogetherServer.setRespawn(playerObj, args)
+    local username = playerObj:getUsername()
+    local sh = SafeHouse.getSafeHouse(args.x, args.y, args.w, args.h)
+    if not sh then return end
+    -- Must own or be a member of THIS safehouse.
+    if not sh:playerAllowed(username) then return end
+
+    if args.set then
+        -- Single respawn: clear the flag from every other safehouse first.
+        local list = SafeHouse.getSafehouseList()
+        for i = 0, list:size() - 1 do
+            local other = list:get(i)
+            if other:isRespawnInSafehouse(username) then
+                other:setRespawnInSafehouse(false, username)
+            end
+        end
+        sh:setRespawnInSafehouse(true, username)
+    else
+        sh:setRespawnInSafehouse(false, username)
+    end
+
+    -- Mirror to every client so open UIs and the respawn indicator update live.
+    sendServerCommand(SafeTogether.MODULE, "respawnChanged", {
+        x = args.x, y = args.y, w = args.w, h = args.h,
+        member = username, set = args.set and true or false,
+    })
+end
+
+-- Place a (re)spawning player at THE safehouse where they set respawn.
+--
+-- Fires server-side during character creation (OnNewGame, triggered inside
+-- CreatePlayerPacket.processServer) BEFORE the player position is serialized to
+-- the client, so server and client agree from the start and no movement anti-
+-- cheat delta is produced.
+--
+-- Why we need it: vanilla already respawns at a safehouse, but it uses
+-- SafeHouse.hasSafehouse(user), which returns the FIRST safehouse the player
+-- belongs to. For a multi-safehouse player (owner of one, guest in others) that
+-- is often NOT the one they chose, so they land at a map spawn instead. We scan
+-- for the safehouse where the player actually has respawn set (single, enforced
+-- by setRespawn) and override the position to it.
+local function onServerNewGame(playerObj)
+    if not playerObj then return end
+    if not getServerOptions():getBoolean("SafehouseAllowRespawn") then return end
+    local username = playerObj:getUsername()
+    if not username then return end
+
+    local list = SafeHouse.getSafehouseList()
+    for i = 0, list:size() - 1 do
+        local sh = list:get(i)
+        if sh:playerAllowed(username) and sh:isRespawnInSafehouse(username) then
+            -- Match vanilla's center calc (note: X uses H, Y uses W, as in
+            -- CreatePlayerPacket / SafeHouse respawn).
+            local x = sh:getX() + sh:getH() / 2
+            local y = sh:getY() + sh:getW() / 2
+            playerObj:setX(x + 0.5)
+            playerObj:setY(y + 0.5)
+            playerObj:setZ(0)
+            playerObj:setLastX(x + 0.5)
+            playerObj:setLastY(y + 0.5)
+            print("[SafeTogether] respawn " .. username .. " -> '" .. sh:getTitle() .. "' @" .. x .. "," .. y)
+            return
+        end
+    end
+end
+Events.OnNewGame.Add(onServerNewGame)
+
 local function onClientCommand(module, command, playerObj, args)
     if module ~= SafeTogether.MODULE then return end
     if not playerObj or not args then return end
