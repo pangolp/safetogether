@@ -1,6 +1,6 @@
 version=1
 id=2986420911
 title=Safehouse Together
-description=This mod is intended to allow people to have multiple safe zones. They can be the owners of their own shelters, but at the same time, be invited by their friends, and be part of their friends' shelter as well. That way, you can help them to build, repair or even take care of their houses, in case they are not connected.
-tags=Build 41
+description=Own your own safehouse and, at the same time, be a guest in your friends' safehouses. The mod adds a list of every safehouse where you are the owner or an invited member, so friends can enter, build, repair and take care of each other's bases even while the owner is offline.
+tags=Build 42;Multiplayer
 visibility=public

@@ -1,0 +1,8 @@
+{
+    "IGUI_SafehouseTogether_AlreadyInvited": "El jugador ya es miembro de este refugio.",
+    "IGUI_SafehouseTogether_Safehouse": "%s - Dueño: %s - Miembros: %d %s",
+    "IGUI_SafehouseTogether_Safehouse_Owner": "Refugios de: %s",
+    "IGUI_SafehouseTogether_Respawn": "- (Revivir acá)",
+    "IGUI_SafeTogether_SafehousesBtn": "Refugios",
+    "IGUI_SafeTogether_ViewOne": "Solo puedes ver un refugio a la vez."
+}

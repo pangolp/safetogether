@@ -1,0 +1,8 @@
+name=Safe Together
+id=safetogether
+description=Own your own safehouse and, at the same time, be invited into your friends' safehouses. Adds a list of every safehouse where you are the owner or a guest, so friends can enter and take care of each other's bases even while the owner is offline.
+poster=safetogether.png
+author=Walter
+modversion=2.0.0
+category=Multiplayer
+versionMin=42.0.0

@@ -1,3 +1,11 @@
+--[[
+    Safe Together - list of every safehouse the player owns or is a guest in.
+    Opened from the user panel "Safehouse" button. Selecting one opens the
+    vanilla ISSafehouseUI for that safehouse.
+]]
+
+require "SafeTogether_Shared"
+
 ISSafeTogetherhousesList = ISPanel:derive("ISSafeTogetherhousesList")
 ISSafeTogetherhousesList.messages = {}
 
@@ -31,7 +39,7 @@ function ISSafeTogetherhousesList:initialise()
     self.datas.drawBorder = true
     self:addChild(self.datas)
 
-    self.viewBtn = ISButton:new(self.no.x + 150,  self:getHeight() - padBottom - btnHgt, btnWid, btnHgt, getText("IGUI_PlayerStats_View"), self, ISSafeTogetherhousesList.onClick)
+    self.viewBtn = ISButton:new(self.no.x + 150, self:getHeight() - padBottom - btnHgt, btnWid, btnHgt, getText("IGUI_PlayerStats_View"), self, ISSafeTogetherhousesList.onClick)
     self.viewBtn.internal = "VIEW"
     self.viewBtn.anchorTop = false
     self.viewBtn.anchorBottom = true
@@ -42,14 +50,15 @@ function ISSafeTogetherhousesList:initialise()
     self.viewBtn.enable = false
 
     self:populateList()
-
 end
 
 function ISSafeTogetherhousesList:populateList()
     self.datas:clear()
-    for i=0, SafeHouse.getSafehouseList():size() - 1 do
-        local safe = SafeHouse.getSafehouseList():get(i)
-        if ((safe:getOwner() == self.player) or (safe:playerAllowed(self.player:getUsername()))) then
+    local username = self.player:getUsername()
+    local list = SafeHouse.getSafehouseList()
+    for i = 0, list:size() - 1 do
+        local safe = list:get(i)
+        if safe:playerAllowed(username) then
             self.datas:addItem(safe:getTitle(), safe)
         end
     end
@@ -58,36 +67,39 @@ end
 function ISSafeTogetherhousesList:drawDatas(y, item, alt)
     local a = 0.9
 
-    self:drawRectBorder(0, (y), self:getWidth(), self.itemheight - 1, a, self.borderColor.r, self.borderColor.g, self.borderColor.b)
+    self:drawRectBorder(0, y, self:getWidth(), self.itemheight - 1, a, self.borderColor.r, self.borderColor.g, self.borderColor.b)
 
     if self.selected == item.index then
-        self:drawRect(0, (y), self:getWidth(), self.itemheight - 1, 0.3, 0.7, 0.35, 0.15)
+        self:drawRect(0, y, self:getWidth(), self.itemheight - 1, 0.3, 0.7, 0.35, 0.15)
         if not ISSafehouseUI.instance then
             self.parent.viewBtn.enable = true
+            self.parent.viewBtn.tooltip = nil
         else
-            self.parent.viewBtn.tooltip = "Solo puedes ver 1 refugio por vez"
+            self.parent.viewBtn.enable = false
+            self.parent.viewBtn.tooltip = getText("IGUI_SafeTogether_ViewOne")
         end
         self.parent.selectedSafehouse = item.item
     end
 
     local playersInSafehouse = item.item:getPlayers():size()
-    local respawnInSafehouseActive = ""
     if playersInSafehouse == 0 then playersInSafehouse = playersInSafehouse + 1 end
-    if item.item:isRespawnInSafehouse(getPlayer():getUsername()) then respawnInSafehouseActive = getText("IGUI_SafehouseTogether_Respawn") else respawnInSafehouseActive = "" end
 
-    self:drawText((string.format(getText("IGUI_SafehouseTogether_Safehouse"), item.item:getTitle(), item.item:getOwner(), playersInSafehouse, respawnInSafehouseActive)), 10, y + 2, 1, 1, 1, a, self.font)
+    local respawnActive = ""
+    if item.item:isRespawnInSafehouse(self.parent.player:getUsername()) then
+        respawnActive = getText("IGUI_SafehouseTogether_Respawn")
+    end
+
+    self:drawText(string.format(getText("IGUI_SafehouseTogether_Safehouse"), item.item:getTitle(), item.item:getOwner(), playersInSafehouse, respawnActive), 10, y + 2, 1, 1, 1, a, self.font)
 
     return y + self.itemheight
 end
 
 function ISSafeTogetherhousesList:prerender()
     local z = 20
-    local splitPoint = 100
-    local x = 10
     self:drawRect(0, 0, self.width, self.height, self.backgroundColor.a, self.backgroundColor.r, self.backgroundColor.g, self.backgroundColor.b)
     self:drawRectBorder(0, 0, self.width, self.height, self.borderColor.a, self.borderColor.r, self.borderColor.g, self.borderColor.b)
-    self:drawText(string.format(getText("IGUI_SafehouseTogether_Safehouse_Owner"), self.player:getUsername()), self.width/2 - (getTextManager():MeasureStringX(UIFont.Medium, string.format(getText("IGUI_SafehouseTogether_Safehouse_Owner"), self.player:getUsername())) / 2), z, 1,1,1,1, UIFont.Medium)
-    z = z + 30
+    local header = string.format(getText("IGUI_SafehouseTogether_Safehouse_Owner"), self.player:getUsername())
+    self:drawText(header, self.width / 2 - (getTextManager():MeasureStringX(UIFont.Medium, header) / 2), z, 1, 1, 1, 1, UIFont.Medium)
 end
 
 function ISSafeTogetherhousesList:onClick(button)
@@ -95,8 +107,8 @@ function ISSafeTogetherhousesList:onClick(button)
         self:close()
     end
     if button.internal == "VIEW" then
-        if not ISSafehouseUI.instance then
-            local safehouseUI = ISSafehouseUI:new(getCore():getScreenWidth() / 2 - 250,getCore():getScreenHeight() / 2 - 225, 500, 450, self.selectedSafehouse, self.player)
+        if not ISSafehouseUI.instance and self.selectedSafehouse then
+            local safehouseUI = ISSafehouseUI:new(getCore():getScreenWidth() / 2 - 250, getCore():getScreenHeight() / 2 - 225, 500, 450, self.selectedSafehouse, self.player)
             safehouseUI:initialise()
             safehouseUI:addToUIManager()
             self:close()
@@ -123,7 +135,6 @@ function ISSafeTogetherhousesList:new(x, y, width, height, player)
     o.width = width
     o.height = height
     o.player = player
-    o.selectedFaction = nil
     o.moveWithMouse = true
     ISSafeTogetherhousesList.instance = o
     return o

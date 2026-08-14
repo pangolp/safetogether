@@ -1,0 +1,8 @@
+{
+    "IGUI_SafehouseTogether_AlreadyInvited": "The player is already a member of this safehouse.",
+    "IGUI_SafehouseTogether_Safehouse": "%s - Owner: %s - Members: %d %s",
+    "IGUI_SafehouseTogether_Safehouse_Owner": "Safehouses of: %s",
+    "IGUI_SafehouseTogether_Respawn": "- (Respawn)",
+    "IGUI_SafeTogether_SafehousesBtn": "Safehouses",
+    "IGUI_SafeTogether_ViewOne": "You can only view one safehouse at a time."
+}
