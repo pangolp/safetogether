@@ -172,7 +172,6 @@ local function onServerNewGame(playerObj)
             playerObj:setZ(0)
             playerObj:setLastX(x + 0.5)
             playerObj:setLastY(y + 0.5)
-            print("[SafeTogether] respawn " .. username .. " -> '" .. sh:getTitle() .. "' @" .. x .. "," .. y)
             return
         end
     end
